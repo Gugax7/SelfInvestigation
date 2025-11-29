@@ -6,7 +6,11 @@ Hello! well, im not that good doing README files, i have to admit, but my idea i
 
 ## Current project:
 
-  Thinking yet
+  G3X Website
+
+## Figuring out:
+
+  Should i do it with docker?
 
 ## Notes:
 
