@@ -10,8 +10,12 @@ Hello! well, im not that good doing README files, i have to admit, but my idea i
 
 ## Figuring out:
 
-  Should i do it with docker?
+  - Thinking about using docker, but it is too early maybe
 
 ## Notes:
 
   - Components are Functions
+
+### What to do next?
+
+  - [] need to think about the screen, maybe draw it.   
