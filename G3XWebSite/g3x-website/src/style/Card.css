@@ -1,0 +1,24 @@
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  text-align: center;
+  cursor: pointer;
+  width: 200px; /* Set a fixed width for the card */
+  height: 300px; /* Set a fixed height for the card */
+  transition: transform 0.2s;
+  overflow: hidden; /* Ensure overflow is hidden */
+}
+
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}

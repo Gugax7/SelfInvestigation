@@ -1,0 +1,12 @@
+.main-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: grey;
+  justify-content: center;
+
+}
+
+.header-logo {
+  height: 150px;
+}
