@@ -18,7 +18,26 @@ function Home() {
     {
       title: "Cafe GameJam",
       description: "Game jam organized by g3x yearly",
-      image: "/images/gexpo_logo.jpg",
+      image: "/images/cafe-logo.png",
+    }
+  ]
+
+  const projects = [
+    {
+      name:"Tower of Death",
+      image: ""
+    },
+    {
+      name:"Tales of Unesp",
+      image: ""
+    },
+    {
+      name:"Samureyeless",
+      image: ""
+    },
+    {
+      name:"TopDrift",
+      image: ""
     }
   ]
 
@@ -46,10 +65,16 @@ function Home() {
           ))}
         </div>
 
-        
-
-
         <h2>Projects</h2>
+
+          <div className="projects-container">
+            {projects.map(project => (
+              <Card 
+                title={project.name}
+                image={project.image}  
+              />
+            ))}
+          </div>
 
         <h2>Who we are</h2>
       </main>
