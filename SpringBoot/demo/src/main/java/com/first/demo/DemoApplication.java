@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.first.demo.domain.User;
+import com.first.demo.service.userService;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -12,8 +13,8 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		var context = SpringApplication.run(DemoApplication.class, args);
 
-		User user = context.getBean("userTwo", User.class);
-		System.out.println(user.sayHello());
+		userService userService = context.getBean(userService.class);
+		System.out.println(userService.tellAStory());
 	}
 
 }

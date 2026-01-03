@@ -1,5 +1,6 @@
 package com.first.demo.configuration;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,7 @@ public class ApplicationConfig {
   }
 
   @Bean
+  @Qualifier("secondOne")
   public User userTwo(){
     return new User("Miguel", 23);
   }
