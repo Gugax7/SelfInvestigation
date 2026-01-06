@@ -19,6 +19,16 @@
       "projectName": "demo",
       "args": "",
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-OnemoretimeApplication<onemoretime>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.ggx.onemoretime.OnemoretimeApplication",
+      "projectName": "onemoretime",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }
