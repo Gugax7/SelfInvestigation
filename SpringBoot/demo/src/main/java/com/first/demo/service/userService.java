@@ -11,7 +11,7 @@ public class userService {
 
   private final User user;
 
-  public userService(@Qualifier("secondOne") User user){
+  public userService(User user){
     this.user = user;
   }
 
