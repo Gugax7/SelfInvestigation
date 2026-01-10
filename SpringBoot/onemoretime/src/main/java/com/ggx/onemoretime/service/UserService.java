@@ -1,37 +1,30 @@
 package com.ggx.onemoretime.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ggx.onemoretime.domain.User;
+import com.ggx.onemoretime.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-  public void changeInfo(User user) throws Exception{
-    if(user.getAge() < 60){
-      user.setAge(sumAgeTen(user.getAge()));
-    }
-    else{
-      throw new Exception("User cannot have more than 60 years to change the info");
-    }
+  private final UserRepository repository;
 
-    if(user.getName().length() > 20){
-      throw new Exception("This user name is too long");
-    }
-    else if(user.getName().length() == 0){
-      throw new Exception("No name found!");
-    }
-
-    user.setName(addSecondName(user.getName()));
-
+  public List<User> listAllUsers() {
+    return repository.findAll();
   }
 
-  public int sumAgeTen(int age){
-    return age+10;
+  public User addUser(User user){
+    return repository.save(user);
   }
 
-  public String addSecondName(String name){
-    return name + " Boioiong";
+  public User changeInfo(User user){
+    return repository.save(user);
   }
   
 }
