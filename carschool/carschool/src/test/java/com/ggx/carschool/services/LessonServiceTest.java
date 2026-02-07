@@ -1,9 +1,6 @@
 package com.ggx.carschool.services;
 
-import com.ggx.carschool.entities.Car;
-import com.ggx.carschool.entities.CarLesson;
-import com.ggx.carschool.entities.User;
-import com.ggx.carschool.entities.Vehicle;
+import com.ggx.carschool.entities.*;
 import com.ggx.carschool.enums.VehicleType;
 import com.ggx.carschool.repositories.CarRepository;
 import com.ggx.carschool.repositories.LessonRepository;
@@ -15,10 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LessonServiceTest {
@@ -54,9 +54,9 @@ public class LessonServiceTest {
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(userRepository.findById(studentId)).thenReturn(Optional.of(student));
 
-        Mockito.when(lessonRepository.save(Mockito.any(CarLesson.class))).thenAnswer(i-> i.getArguments()[0]);
+        Mockito.when(lessonRepository.save(any(CarLesson.class))).thenAnswer(i-> i.getArguments()[0]);
 
-        CarLesson createdLesson = lessonService.createCarLesson(instructorId, studentId, carId);
+        CarLesson createdLesson = lessonService.createCarLesson(instructorId, studentId, carId, LocalDateTime.of(12001,10,10,10,0));
 
         assertNotNull(createdLesson);
         assertEquals(instructor, createdLesson.getInstructor());
@@ -81,8 +81,79 @@ public class LessonServiceTest {
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(new Car()));
 
         assertThrows(RuntimeException.class, () -> {
-            lessonService.createCarLesson(instructorId, studentId, carId);
+            lessonService.createCarLesson(instructorId, studentId, carId, LocalDateTime.of(2000, 10,10,10,0));
         });
+
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInstructorIsNotAvailable() {
+        Long instructorId = 1L;
+        Long studentId = 2L;
+        LocalDateTime desiredTime = LocalDateTime.of(2025, 10,10,10,0);
+
+        User instructor = new User();
+        instructor.setId(instructorId);
+        instructor.setAuthorizedVehicleType(List.of(VehicleType.CAR));
+
+        Lesson existingLesson = new CarLesson();
+        existingLesson.setStartTime(LocalDateTime.of(2025,10,10,9,30));
+
+        Mockito.when(userRepository.findById(instructorId)).thenReturn(Optional.of(instructor));
+        Mockito.when(userRepository.findById(studentId)).thenReturn(Optional.of(new User()));
+        Mockito.when(carRepository.findById(anyLong())).thenReturn(Optional.of(new Car()));
+
+        Mockito.when(lessonRepository
+                .findConflicts(eq(instructor), any(LocalDateTime.class), any(LocalDateTime.class)))
+                .thenReturn(List.of(existingLesson));
+
+        assertThrows(RuntimeException.class, () -> {
+            lessonService.createCarLesson(instructorId, studentId, 1L, desiredTime);
+        });
+
+    }
+
+    @Test
+    void shouldCreateLessonIfInstructorJustFinishedAClass(){
+        long instructorId = 1L;
+        long studentId = 2L;
+        long carId = 1L;
+
+        LocalDateTime classAt10 = LocalDateTime.of(2026, 10, 10, 10, 0);
+        LocalDateTime classAt11 = LocalDateTime.of(2026, 10, 10, 11, 0);
+
+        User instructor = new User();
+        instructor.setId(instructorId);
+        instructor.setAuthorizedVehicleType(List.of(VehicleType.CAR));
+
+        Mockito.when(userRepository.findById(instructorId)).thenReturn(Optional.of(instructor));
+        Mockito.when(userRepository.findById(studentId)).thenReturn(Optional.of(new User()));
+        Mockito.when(carRepository.findById(anyLong())).thenReturn(Optional.of(new Car()));
+
+        Mockito.when(lessonRepository.findConflicts(
+                eq(instructor),
+                eq(classAt11.minusHours(1)),
+                eq(classAt11.plusHours(1))
+        )).thenReturn(Collections.emptyList());
+
+        CarLesson result = lessonService.createCarLesson(instructorId, 2L, 3L, classAt11);
+
+        assertNotNull(result);
+        assertEquals(classAt11, result.getStartTime());
+    }
+
+    // TODO: improve last test with DataJpaTest
+    // TODO: if student not available, throws a exception too
+    // TODO: if some dont exist throw exception
+    // TODO: if car is unavailable throw a exception too
+
+    @Test
+    void shouldThrowExceptionWhenStudentIsNotAvailable() {
+
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSomeDoNotExists() {
 
     }
 }

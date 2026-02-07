@@ -23,4 +23,36 @@ public class User {
 
     @ElementCollection
     private List<VehicleType> authorizedVehicleType;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<VehicleType> getAuthorizedVehicleType() {
+        return authorizedVehicleType;
+    }
+
+    public void setAuthorizedVehicleType(List<VehicleType> authorizedVehicleType) {
+        this.authorizedVehicleType = authorizedVehicleType;
+    }
 }

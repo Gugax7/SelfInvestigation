@@ -12,4 +12,12 @@ import lombok.ToString;
 @ToString
 public class Motorcycle extends Vehicle{
     private boolean hasSideCar;
+
+    public boolean isHasSideCar() {
+        return hasSideCar;
+    }
+
+    public void setHasSideCar(boolean hasSideCar) {
+        this.hasSideCar = hasSideCar;
+    }
 }
